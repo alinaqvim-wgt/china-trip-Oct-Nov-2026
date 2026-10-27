@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<title>China Trip · Pegasus Team</title>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#f4f5f3; --surface:#ffffff; --surface-2:#eef0ec; --line:#dde1da;
+  --ink:#13241e; --ink-soft:#4a5a53; --ink-faint:#7c8b83;
+  --jade:#0f8a5f; --jade-deep:#0b6d4b; --jade-wash:#e4f3ec;
+  --slate:#4e7a8c; --slate-wash:#e7f0f3;
+  --violet:#6b54b0; --violet-wash:#ece7f7;
+  --amber:#b07a16; --amber-wash:#f7edd6;
+  --red:#b23b3b; --red-wash:#f6e2e0;
+  --shadow:0 1px 2px rgba(19,36,30,.06),0 7px 22px -10px rgba(19,36,30,.14);
+  --r:16px; --r-sm:12px;
+  --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
+  --tab:62px; --maxw:720px;
+}
+:root[data-theme="dark"],
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b1411; --surface:#121f1a; --surface-2:#182824; --line:#243630;
+  --ink:#e7eee9; --ink-soft:#a8b8b0; --ink-faint:#71857c;
+  --jade:#3cbd87; --jade-deep:#2a9b6d; --jade-wash:#122f23;
+  --slate:#6ba3b8; --slate-wash:#13262c; --violet:#a58ce6; --violet-wash:#201a33;
+  --amber:#d6a648; --amber-wash:#2d2512; --red:#e07a74; --red-wash:#331b1a;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.4);
+}}
+:root[data-theme="dark"]{
+  --bg:#0b1411; --surface:#121f1a; --surface-2:#182824; --line:#243630;
+  --ink:#e7eee9; --ink-soft:#a8b8b0; --ink-faint:#71857c;
+  --jade:#3cbd87; --jade-deep:#2a9b6d; --jade-wash:#122f23;
+  --slate:#6ba3b8; --slate-wash:#13262c; --violet:#a58ce6; --violet-wash:#201a33;
+  --amber:#d6a648; --amber-wash:#2d2512; --red:#e07a74; --red-wash:#331b1a;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--safe-t) + 110px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.45;letter-spacing:-.006em;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Noto Sans",sans-serif;
+  padding-top:var(--safe-t);padding-bottom:calc(var(--tab) + var(--safe-b) + 12px);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:var(--safe-t);background:var(--surface);z-index:60}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 15px}
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+
+/* header */
+header{position:sticky;top:var(--safe-t);z-index:50;background:color-mix(in srgb,var(--surface) 90%,transparent);
+  backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:10px;padding:10px 15px;max-width:var(--maxw);margin:0 auto}
+.mark{width:30px;height:30px;border-radius:9px;background:var(--jade);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;flex:none;box-shadow:0 2px 6px rgba(15,138,95,.4)}
+.htitle{min-width:0;flex:1}
+.htitle b{font-size:15px;font-weight:750;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.htitle span{font-size:11.5px;color:var(--ink-faint)}
+.clock{text-align:right;font-size:11px;color:var(--ink-faint);line-height:1.3;flex:none}
+.clock b{display:block;font-size:12.5px;color:var(--ink-soft);font-weight:650;font-variant-numeric:tabular-nums}
+.theme{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-soft);font-size:15px;flex:none}
+.prog{height:3px;background:var(--surface-2)}
+.prog>i{display:block;height:100%;background:linear-gradient(90deg,var(--jade),var(--jade-deep));transition:width .5s}
+
+main{padding-top:14px}
+.view{display:none}
+.view.on{display:block;animation:fade .24s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.view.on{animation:none}.prog>i{transition:none}}
+.vhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:2px 3px 13px;flex-wrap:wrap}
+.vhead h2{font-size:21px;font-weight:800;letter-spacing:-.02em;margin:0;flex:none}
+.vhead .sub{font-size:12px;color:var(--ink-faint);text-align:right;flex:1;min-width:120px}
+.slab{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-faint);margin:22px 3px 9px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.pad{padding:15px}
+.card+.card{margin-top:11px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* badges */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.02em;
+  text-transform:uppercase;padding:4px 9px;border-radius:20px;white-space:nowrap}
+.badge .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+.b-travel{background:var(--slate-wash);color:var(--slate)}
+.b-fair{background:var(--violet-wash);color:var(--violet)}
+.b-factory{background:var(--amber-wash);color:var(--amber)}
+.b-priority{background:var(--red-wash);color:var(--red)}
+.b-rest{background:var(--surface-2);color:var(--ink-faint)}
+.b-ok{background:var(--jade-wash);color:var(--jade-deep)}
+.b-pending{background:var(--amber-wash);color:var(--amber)}
+
+/* who's here chips */
+.who{display:inline-flex;gap:4px;align-items:center}
+.who .p{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:800;color:#fff;border:2px solid var(--surface)}
+.p.abt{background:var(--jade)}.p.mir{background:var(--slate)}.p.grk{background:var(--violet)}
+.who .p+.p{margin-left:-8px}
+
+/* hero */
+.hero{position:relative;border-radius:20px;padding:16px;color:#eef4f1;overflow:hidden;
+  background:linear-gradient(155deg,#14312a,#0c211c);box-shadow:var(--shadow)}
+.hero .chip{position:absolute;top:14px;right:14px;font-size:11px;font-weight:700;color:#bfe0d2;background:rgba(255,255,255,.1);border-radius:20px;padding:4px 10px}
+.hero .ey{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:650;color:#7fd3ab}
+.hero .ey .dot{width:7px;height:7px;border-radius:50%;background:#3cbd87;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(60,189,135,.5)}70%{box-shadow:0 0 0 7px rgba(60,189,135,0)}100%{box-shadow:0 0 0 0 rgba(60,189,135,0)}}
+@media (prefers-reduced-motion:reduce){.hero .ey .dot{animation:none}}
+.hero h3{margin:9px 0 2px;font-size:22px;font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1.15}
+.hero .where{font-size:13.5px;color:#aecabf}
+.hero .nxt{margin-top:13px;border-top:1px dashed rgba(255,255,255,.18);padding-top:12px;display:flex;gap:11px;align-items:flex-start}
+.hero .nxt .ic{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:16px;flex:none}
+.hero .nxt .l{font-size:10.5px;color:#8fb8a7;font-weight:650;letter-spacing:.03em;text-transform:uppercase}
+.hero .nxt .t{font-size:14.5px;font-weight:600;color:#fff;margin-top:1px}
+.hero .nxt .m{font-size:12.5px;color:#9fc0b2;margin-top:1px}
+.hero .team{margin-top:12px;display:flex;align-items:center;gap:8px;font-size:12px;color:#aecabf}
+
+/* alert */
+.alert{display:flex;gap:9px;align-items:flex-start;border-radius:var(--r-sm);padding:11px 12px;border:1px solid;margin-top:10px;cursor:pointer}
+.alert .i{font-size:15px;flex:none;line-height:1.3}
+.alert .x b{display:block;font-size:13px;font-weight:700;margin-bottom:1px}
+.alert .x p{margin:0;font-size:12.5px;color:var(--ink-soft)}
+.alert .j{font-size:10.5px;color:var(--ink-faint);margin-top:5px;letter-spacing:.03em}
+.a-crit{background:var(--red-wash);border-color:color-mix(in srgb,var(--red) 35%,var(--line))}.a-crit .i{color:var(--red)}
+.a-warn{background:var(--amber-wash);border-color:color-mix(in srgb,var(--amber) 35%,var(--line))}.a-warn .i{color:var(--amber)}
+.a-note{background:var(--slate-wash);border-color:color-mix(in srgb,var(--slate) 30%,var(--line))}.a-note .i{color:var(--slate)}
+
+/* day nav */
+.daynav{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.daynav button{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:18px;color:var(--ink);display:grid;place-items:center;box-shadow:var(--shadow)}
+.daynav button:disabled{opacity:.35}
+.daynav .lbl{flex:1;text-align:center;font-weight:700;font-size:14.5px}
+.daynav .lbl small{display:block;font-size:10.5px;color:var(--ink-faint);font-weight:500;letter-spacing:.04em}
+
+/* timeline steps */
+.steps{margin:6px 0 0;padding:0;list-style:none}
+.steps li{position:relative;padding:0 0 15px 30px}
+.steps li:last-child{padding-bottom:3px}
+.steps li::before{content:"";position:absolute;left:9px;top:19px;bottom:-3px;width:2px;background:var(--line)}
+.steps li:last-child::before{display:none}
+.steps .nd{position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--surface);border:2px solid var(--jade);display:grid;place-items:center;font-size:10px;z-index:1}
+.steps .nd.slate{border-color:var(--slate)}.steps .nd.red{border-color:var(--red)}.steps .nd.violet{border-color:var(--violet)}.steps .nd.amber{border-color:var(--amber)}
+.steps .tm{font-size:12px;font-weight:750;color:var(--jade-deep);font-variant-numeric:tabular-nums}
+.steps .wt{font-size:14.5px;font-weight:600;margin-top:1px}
+.steps .dt{font-size:12.5px;color:var(--ink-faint);margin-top:2px;white-space:pre-line}
+
+/* info rows */
+.irow{display:flex;gap:11px;padding:10px 0;border-top:1px solid var(--line)}
+.irow:first-child{border-top:none}
+.irow .k{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);width:70px;flex:none;padding-top:2px;font-weight:650}
+.irow .v{flex:1;font-size:13.5px;white-space:pre-line}
+.conf{font-variant-numeric:tabular-nums;background:var(--surface-2);padding:2px 6px;border-radius:5px;font-size:12px;font-weight:650}
+
+/* action buttons */
+.acts{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.ab{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650;padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:var(--surface)}
+.ab.pri{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.ab.wa{background:#e7f5ec;color:#0a7a3f;border-color:#c6e8d3}
+.ab.call{background:var(--slate-wash);color:var(--slate);border-color:color-mix(in srgb,var(--slate) 25%,var(--line))}
+.ab:active{transform:scale(.97)}
+
+/* trip rail */
+.rail{position:relative}
+.rday{position:relative;padding:0 0 11px 44px}
+.rday::before{content:"";position:absolute;left:18px;top:7px;bottom:-6px;width:3px;background:var(--line)}
+.rday:last-child::before{display:none}
+.rday .node{position:absolute;left:8px;top:5px;width:23px;height:23px;border-radius:50%;background:var(--surface);border:3px solid var(--slate);display:grid;place-items:center;font-size:10px;font-weight:800;color:var(--ink);z-index:2}
+.rday.t-factory .node{border-color:var(--amber)}.rday.t-priority .node{border-color:var(--red)}.rday.t-fair .node{border-color:var(--violet)}.rday.t-rest .node{border-color:var(--ink-faint)}
+.rday.active .node{box-shadow:0 0 0 4px color-mix(in srgb,var(--jade) 25%,transparent);transform:scale(1.1);border-color:var(--jade)}
+.rcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.rday.active .rcard{border-color:var(--jade)}
+.rsum{padding:12px 13px;cursor:pointer}
+.rsum .top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rsum .dl{font-weight:700;font-size:14px}
+.rsum .dl small{font-weight:500;color:var(--ink-faint);font-size:10.5px;margin-left:6px;letter-spacing:.03em}
+.rsum .ti{font-size:13.5px;margin-top:4px;font-weight:600}
+.rsum .ci{font-size:12.5px;color:var(--ink-faint);margin-top:2px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rsum .ex{font-size:10.5px;color:var(--ink-faint);letter-spacing:.04em;margin-top:6px}
+.rdet{display:none;border-top:1px solid var(--line);padding:10px 13px 13px;background:color-mix(in srgb,var(--surface-2) 40%,var(--surface))}
+.rday.open .rdet{display:block}
+
+/* visit cards */
+.vcard .pad{padding:15px}
+.vcard .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.vcard .co{font-weight:750;font-size:16px;line-height:1.25}
+.vcard .meta{font-size:12px;color:var(--ink-faint);margin-top:3px}
+.prod{display:inline-flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.prod span{font-size:11.5px;font-weight:600;background:var(--surface-2);color:var(--ink-soft);padding:4px 9px;border-radius:8px}
+.qgrp{margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
+.qtag{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:5px}
+.qtag.ask{background:var(--slate-wash);color:var(--slate)}
+.qtag.qual{background:var(--red-wash);color:var(--red)}
+.qitem{display:flex;gap:8px;font-size:13px;line-height:1.45;padding:4px 0}
+.qitem .n{font-size:11px;font-weight:700;color:var(--ink-faint);flex:none;margin-top:1px}
+
+/* fair booths */
+.hall{margin-top:16px}
+.hall h4{font-size:13px;font-weight:750;margin:0 3px 8px;display:flex;align-items:center;gap:8px}
+.hall h4 .tagh{font-size:10.5px;font-weight:700;background:var(--violet-wash);color:var(--violet);padding:3px 9px;border-radius:20px}
+.booth{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.booth .bn{font-size:12px;font-weight:800;color:var(--violet);background:var(--violet-wash);border-radius:10px;padding:8px 10px;flex:none;text-align:center;min-width:64px;line-height:1.2}
+.booth .bi{flex:1;min-width:0}
+.booth .bi .n{font-weight:700;font-size:14.5px}
+.booth .bi .c{font-size:12px;color:var(--ink-faint);margin-top:1px}
+
+/* contacts */
+.cc{display:flex;align-items:center;gap:12px;padding:11px 14px}
+.cc .av{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:750;font-size:15px;color:#fff;flex:none}
+.cc .ci{flex:1;min-width:0}
+.cc .ci .n{font-weight:700;font-size:14.5px}
+.cc .ci .r{font-size:11.5px;color:var(--ink-faint);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc .cb{display:flex;gap:7px;flex:none}
+.cc .cb a{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface-2);font-size:15px}
+.cc .cb a.wa{background:#e7f5ec;border-color:#c6e8d3}
+
+/* map */
+.mapwrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:6px}
+svg.routemap{width:100%;height:auto;display:block;border-radius:12px;background:
+  radial-gradient(130% 100% at 20% 0%,color-mix(in srgb,var(--jade) 7%,transparent),transparent 60%),var(--surface-2)}
+.mlegend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:10px;font-size:11.5px;color:var(--ink-soft)}
+.mlegend span{display:inline-flex;align-items:center;gap:6px}
+.mlegend i{width:16px;height:0;border-top:2px solid;display:inline-block}
+.mapnote{font-size:11.5px;color:var(--ink-faint);text-align:center;margin-top:9px;padding:0 6px}
+
+/* checklist */
+.chk{display:flex;gap:9px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px;align-items:flex-start}
+.chk:first-of-type{border-top:none}
+.chk .cx{flex:none;margin-top:1px}
+.chk.done{color:var(--ink-faint)}
+
+.tiny{font-size:11.5px;color:var(--ink-faint)}
+.pending{color:var(--amber);font-weight:650}
+
+/* bottom tabs */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:70;display:flex;justify-content:space-around;
+  background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);
+  border-top:1px solid var(--line);padding-bottom:var(--safe-b)}
+nav.tabs button{flex:1;height:var(--tab);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--ink-faint)}
+nav.tabs button .i{font-size:19px;line-height:1}
+nav.tabs button .l{font-size:10px;font-weight:650}
+nav.tabs button.on{color:var(--jade)}
+
+.todaybtn{position:fixed;right:14px;bottom:calc(var(--tab) + var(--safe-b) + 14px);z-index:65;background:var(--jade);color:#fff;
+  font-weight:700;font-size:13px;padding:10px 15px;border-radius:24px;box-shadow:0 6px 18px -5px rgba(15,138,95,.6);display:none;align-items:center;gap:6px}
+.todaybtn.show{display:flex}
+#toast{position:fixed;bottom:calc(var(--tab) + var(--safe-b) + 24px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:20px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="hrow">
+    <div class="mark">王</div>
+    <div class="htitle"><b>China Trip · Team</b><span>Oct 22 – Nov 14, 2026 · Pegasus Imports</span></div>
+    <div class="clock"><b id="ckTime">—</b><span id="ckDate">China time</span></div>
+    <button class="theme" id="themeBtn" aria-label="Toggle theme">◐</button>
+  </div>
+  <div class="prog"><i id="prog" style="width:0"></i></div>
+</header>
+
+<main class="wrap">
+  <section class="view on" id="v-today"></section>
+  <section class="view" id="v-trip"></section>
+  <section class="view" id="v-visits"></section>
+  <section class="view" id="v-map"></section>
+  <section class="view" id="v-info"></section>
+</main>
+
+<button class="todaybtn" id="todayBtn">◉ Today</button>
+<div id="toast"></div>
+
+<nav class="tabs">
+  <button data-v="today" class="on"><span class="i">◉</span><span class="l">Today</span></button>
+  <button data-v="trip"><span class="i">▦</span><span class="l">Trip</span></button>
+  <button data-v="visits"><span class="i">◎</span><span class="l">Meetings</span></button>
+  <button data-v="map"><span class="i">◈</span><span class="l">Map</span></button>
+  <button data-v="info"><span class="i">☏</span><span class="l">Info</span></button>
+</nav>
+
+<script>
+/* ======================= DATA ======================= */
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const DOWF=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const IC={fl:"✈️",rl:"🚄",tf:"🚕",ht:"🏨",fac:"🏭",fair:"▦",mt:"🤝",rest:"☕",food:"🍽️",pin:"📍"};
+
+/* who is present: a=ABT, m=Mirza, g=Greek */
+const DAYS=[
+ {iso:"2026-10-22",dow:"Wed",cat:"travel",city:"Houston → transit",title:"Depart Houston",team:"a",
+  lead:"Overnight EVA flight to Taipei. The trip begins.",
+  steps:[["01:00","fl","red","EVA BR051 · Houston → Taipei","Depart IAH Terminal E · seat 51C · bags checked through"]]},
+ {iso:"2026-10-23",dow:"Thu",cat:"travel",city:"Taipei",title:"Land in Taipei",team:"a",
+  lead:"Arrive 06:15. The onward Guangzhou flight was cancelled, so overnight in Taipei.",
+  steps:[["06:15","fl","red","Arrive Taipei (TPE) T2","From BR051"],["Day","rest","","Free time in Taipei","No visa needed for Taiwan (US passport)"],["16:00","ht","violet","Check in — At Home Hotel Ximen","Near Ximen MRT · conf 1658115962501279 · PIN 3270"]],hotel:"ximen"},
+ {iso:"2026-10-24",dow:"Fri",cat:"rest",city:"Taipei",title:"Taipei — free day",team:"a",
+  lead:"A buffer day in Taipei before continuing to Guangzhou.",
+  steps:[["Day","rest","","Explore Taipei","Ximen / Taipei Main Station area"]],hotel:"ximen"},
+ {iso:"2026-10-25",dow:"Sun",cat:"travel",city:"Taipei → Guangzhou",title:"Fly to Guangzhou",team:"a",
+  lead:"China Southern to Guangzhou. Carry BOTH passports — the China visa is in the older one.",
+  steps:[["11:00","ht","violet","Check out — At Home Hotel Ximen","Store bags if going out"],["13:15","tf","slate","Leave for Taipei airport","Taxi ~45–60 min, or Airport MRT"],["15:30","fl","red","CZ3098 · Taipei → Guangzhou","TPE T2 → CAN T2 · lands 17:40 · PNR NK6249"],["~19:00","ht","","Arrive Atour Guangzhou","Upgraded Superior King · same room to Nov 5"]],hotel:"atour"},
+ {iso:"2026-10-26",dow:"Mon",cat:"fair",city:"Guangzhou",title:"Canton Fair · Phase 2",team:"a",
+  lead:"Home, gifts & decor halls. Free hotel shuttle 08:00 / 08:30 / 09:30.",
+  steps:[["08:30","tf","slate","Hotel shuttle to the fair","Free · from the lobby"],["Day","fair","violet","Canton Fair Phase 2 · Pazhou","Mattress & cushion factories for RV / hospital sizes"]],hotel:"atour"},
+ {iso:"2026-10-27",dow:"Tue",cat:"fair",city:"Guangzhou",title:"Phase 2 + Chris",team:"a",
+  lead:"Last Phase 2 day (shuttle 08:30 only), plus the Chris / Probeing meeting.",
+  steps:[["08:30","tf","slate","Hotel shuttle to the fair","Last Phase 2 shuttle"],["Day","fair","violet","Canton Fair Phase 2","Final gift / decor sourcing"],["TBC","mt","","Meet Chris · Probeing","Nerf darts · WhatsApp +86 136 3168 3552"]],hotel:"atour"},
+ {iso:"2026-10-28",dow:"Wed",cat:"rest",city:"Guangzhou",title:"Appointments",team:"a",
+  lead:"Free day — dentist and Botox before the team arrives.",
+  steps:[["AM","mt","","Dentist — cleaning","To be booked"],["PM","mt","","Botox","To be booked"],["Day","rest","","Rest / admin","Alipay · WeChat · DiDi check"]],hotel:"atour"},
+ {iso:"2026-10-29",dow:"Thu",cat:"rest",city:"Guangzhou",title:"Setup & rest",team:"a",
+  lead:"Backup day for appointments. Booking rolls into the 2nd Atour reservation (same room).",
+  steps:[["Day","rest","","Rest, prep, app setup","VPN · Alipay · maps"]],hotel:"atour"},
+ {iso:"2026-10-30",dow:"Fri",cat:"travel",city:"Guangzhou",title:"Greek arrives",team:"ag",
+  lead:"Greek lands 02:15. (Mirza now arrives Nov 3 — visa delay.) Collect Greek's fair badge.",
+  steps:[["02:15","fl","violet","Greek lands (CAN)","Via Manila · arrange airport car"],["PM","mt","","Collect Greek's fair badge","Passport + business card"],["Note","rest","amber","Mirza's arrival moved to Nov 3","Visa still pending — see Info"]],hotel:"atour"},
+ {iso:"2026-10-31",dow:"Sat",cat:"fair",city:"Guangzhou",title:"Phase 3 · booth day",team:"ag",
+  lead:"ABT + Greek. Pre-arranged booth meetings — best done today. (Mirza arrives Nov 3.)",
+  steps:[["AM","fair","violet","Hall 9.2 — Shirley (M01) + Vilma/Cathy (M06)","Patches + steam eye masks, almost next to each other"],["Mid","fair","violet","Hall 10.2 — Honor / CSI (D41-42)","Medical"],["PM","fair","violet","Hall 14.3 — Lora / Qindao (I40)","Electric blankets"]],hotel:"atour"},
+ {iso:"2026-11-01",dow:"Sun",cat:"fair",city:"Guangzhou",title:"Phase 3 · sourcing",team:"ag",
+  lead:"Find new suppliers across skincare and medical lines.",
+  steps:[["Day","fair","violet","Canton Fair Phase 3","Split by product line"],["~15:00","mt","","Massage","To be booked"]],hotel:"atour"},
+ {iso:"2026-11-02",dow:"Mon",cat:"fair",city:"Guangzhou",title:"Phase 3 · negotiate",team:"ag",
+  lead:"Second visits to the best new suppliers. Quotes & samples in writing.",
+  steps:[["Day","fair","violet","Canton Fair Phase 3","Follow-ups via WeChat the same night"]],hotel:"atour"},
+ {iso:"2026-11-03",dow:"Tue",cat:"rest",city:"Guangzhou",title:"Mirza lands · Wendy dinner",team:"amg",
+  lead:"Mirza arrives 05:55 — now the full team. No fair: explore the city, dinner with Wendy.",
+  steps:[["05:55","fl","slate","Mirza lands (CAN)","From Lahore · collect his fair badge"],["Day","rest","","Explore Guangzhou","Late start"],["18:00","food","","Dinner · Wendy / Wingspeed","Shipping for new suppliers · ends by 20:00"]],hotel:"atour"},
+ {iso:"2026-11-04",dow:"Wed",cat:"factory",city:"Guangzhou · Huadu",title:"Visit · Anna / HUINI",team:"amg",
+  lead:"Skincare factory in Huadu. Anna pickup 10:30. Pack tonight for the early flight.",
+  steps:[["10:30","tf","amber","Anna's pickup from the Atour","~1h to the factory · lunch provided"],["Day","fac","amber","HUINI Beauty factory · Huadu","Skincare · ~2h meeting"],["~14:30","tf","slate","Back to the Atour","Pack for Wenzhou"]],hotel:"atour",visit:"huini"},
+ {iso:"2026-11-05",dow:"Thu",cat:"priority",city:"→ Wenzhou",title:"Carelife ★ PRIORITY",team:"amg",
+  lead:"Fly to Wenzhou, then the insulin syringe factory in Longwan. The trip's top priority.",
+  steps:[["08:30","tf","slate","Leave Atour for Guangzhou airport","Check out first · ~45–60 min to CAN T2"],["10:40","fl","red","CZ3763 · Guangzhou → Wenzhou","CAN T2 → WNZ T2 · lands 12:25"],["12:25","tf","amber","Carelife pickup at WNZ","7-seater · lunch (halal) then factory"],["PM","fac","red","Carelife / INI insulin factory · Longwan","Carelife arranges car, lunch & hotel drop"],["Eve","ht","","Check in — Wenzhou Airport Marriott","Next to the airport"]],hotel:"marriott",visit:"carelife"},
+ {iso:"2026-11-06",dow:"Fri",cat:"travel",city:"→ Nanjing",title:"HSR to Nanjing",team:"amg",
+  lead:"Business-class high-speed train to Nanjing. Alice possibly at 17:00.",
+  steps:[["09:30","tf","slate","Leave Marriott for Wenzhou South","~40–50 min to the station"],["10:46","rl","","G7662 · Wenzhou South → Nanjing South","Business · car 03 · lands 14:50 (train under review)"],["~15:30","ht","","Check in — voco Nanjing","Base for 5 nights"],["17:00","mt","amber","Alice · Bamboo Crafts (tentative)","Mattress · at the voco · team decision pending"]],hotel:"voco"},
+ {iso:"2026-11-07",dow:"Sat",cat:"factory",city:"→ Yizheng",title:"Visit · Eva / Meson",team:"amg",
+  lead:"Meson factory in Yizheng. Core pimple-patch supplier. (Saturday operation — confirming with Eva.)",
+  steps:[["AM","tf","amber","Eva's car from the hotel","~1h each way"],["Day","fac","amber","Meson Medical · Yizheng","Pimple patches · full production tour"]],hotel:"voco",visit:"meson",pendingNote:"Pending Eva's confirmation that the factory runs Saturday."},
+ {iso:"2026-11-08",dow:"Sun",cat:"rest",city:"Yizheng · Nanjing",title:"Eva day 2 / rest",team:"amg",
+  lead:"Second day with Eva, or rest in Nanjing.",
+  steps:[["Day","fac","amber","Eva day 2 · hosted","Relationship + local hosting"]],hotel:"voco"},
+ {iso:"2026-11-09",dow:"Mon",cat:"factory",city:"Nanjing",title:"Visit · J Sun ★",team:"amg",
+  lead:"J Sun Healthcare — the biggest relationship. Shirley's only available factory day.",
+  steps:[["AM","tf","amber","Pickup with Shirley","Qixia District"],["Day","fac","amber","J Sun Healthcare factory","Acne / salicylic patches · Shirley Gu"]],hotel:"voco",visit:"jsun"},
+ {iso:"2026-11-10",dow:"Tue",cat:"rest",city:"Nanjing",title:"Nanjing — buffer",team:"amg",
+  lead:"Open day in Nanjing. Shirley leaves early for a Hong Kong fair.",
+  steps:[["Day","rest","","Free / buffer day","Catch up, samples, follow-ups"]],hotel:"voco"},
+ {iso:"2026-11-11",dow:"Wed",cat:"travel",city:"→ Xi'an",title:"Fly to Xi'an",team:"amg",
+  lead:"Afternoon flight to Xi'an, then the Muslim Quarter for a halal dinner.",
+  steps:[["11:20","tf","slate","Leave voco for Nanjing airport","Check out first · ~45–60 min to NKG T2"],["13:20","fl","red","MU2875 · Nanjing → Xi'an","NKG T2 → XIY T5 · lands 15:30 · seats 34A/B/C"],["~16:45","ht","","Check in — Hilton Xi'an City Wall","Inside the old city"],["Eve","food","","Muslim Quarter · halal dinner","Sightseeing begins"]],hotel:"hilton"},
+ {iso:"2026-11-12",dow:"Thu",cat:"rest",city:"Xi'an",title:"Terracotta Army",team:"amg",
+  lead:"Team day: Terracotta Army, city-wall bike ride, foot massage.",
+  steps:[["Day","rest","","Terracotta Army","Tickets per passport — book ahead · driver ~1h each way"],["PM","rest","","City-wall bike ride · foot massage","Pay with Alipay"]],hotel:"hilton"},
+ {iso:"2026-11-13",dow:"Fri",cat:"rest",city:"Xi'an",title:"Xi'an — free day",team:"amg",
+  lead:"Open day. Keep the evening light — very early departure tomorrow.",
+  steps:[["Day","rest","","Free day in Xi'an",""],["Eve","ht","amber","Pack · order breakfast box · book 05:30 car","Early start tomorrow"]],hotel:"hilton"},
+ {iso:"2026-11-14",dow:"Sat",cat:"travel",city:"Xi'an → home",title:"Fly home",team:"amg",
+  lead:"Everyone departs at different times. ABT home via Beijing & San Francisco.",
+  steps:[["05:30","tf","slate","ABT leaves Hilton for the airport","XIY ~1h away"],["08:20","fl","red","ABT · CA1206 Xi'an → Beijing","→ PEK 10:40 · seat 16J · then Beijing → SFO → Houston"],["11:10","fl","slate","Mirza · CZ3202 Xi'an → Guangzhou → Lahore","Leaves hotel ~08:00"],["17:50","fl","violet","Greek · Xi'an → Shenzhen → Manila","Leaves hotel ~15:00 · late check-out"]]},
+];
+
+const HOTELS={
+ ximen:{name:"At Home Hotel Ximen",city:"Taipei",dates:"Oct 23–25 · 2 nights",who:"ABT",conf:"1658115962501279",pin:"3270",
+   addr:"No. 8, Ln. 96, Kunming St, Wanhua District, Taipei",phone:"+886223619000",pay:"Prepaid · US$359",status:"ok"},
+ atour:{name:"Atour Hotel Guangzhou Tianhe",city:"Guangzhou",dates:"Oct 25 – Nov 5 · Superior King (upgraded)",who:"ABT",
+   conf:"6076.832.141 / 6807.672.361",pin:"4189 / 8809",addr:"No. 918 Guangzhou Avenue Central, Tianhe · 广州市天河区广州大道中918号",
+   phone:"+862038869988",pay:"Prepaid + pay at desk",status:"ok",
+   note:"Mirza has his own Trip.com booking here (Nov 3–5). Greek Oct 30 – Nov 5. Free Canton Fair shuttle 08:00/08:30/09:30."},
+ marriott:{name:"Wenzhou Airport Marriott",city:"Wenzhou",dates:"Nov 5–6 · 1 night",who:"All 3",conf:"5478.255.899",pin:"8245",
+   addr:"No. 2007 Binhai 1st Avenue, Wenzhou",phone:"+8657788918888",pay:"Pay at hotel · ~US$349 (3 rms)",status:"ok"},
+ voco:{name:"voco Nanjing Oriental Pearl",city:"Nanjing",dates:"Nov 6–11 · 5 nights",who:"All 3",conf:"6444.650.776",pin:"9590",
+   addr:"No. 389 Zhujiang Road, Xuanwu District, Nanjing",phone:"+862586883888",pay:"Pay at hotel · ~US$1,905 (3 rms) · CNY 1,200 deposit",status:"ok"},
+ hilton:{name:"Hilton Xi'an City Wall",city:"Xi'an",dates:"Nov 11–14 · 3 nights",who:"All 3",conf:"5091.767.152",pin:"7475",
+   addr:"199 Dongxin Street, Xincheng District, Xi'an",phone:"+862987654000",pay:"Pay at hotel · ~US$1,025 (3 rms)",status:"ok",
+   note:"Nov 14: breakfast box + 05:30 car for ABT; late check-out / bag storage for Greek (flight 17:50)."},
+};
+
+const MOVES=[
+ {d:"Sun Oct 25",ic:"fl",code:"CZ3098",who:"ABT",from:"Taipei TPE T2",to:"Guangzhou CAN T2",dep:"15:30",arr:"17:40",codes:[["Booking","1658116515645754"],["PNR","NK6249"]],note:"Replaces the cancelled EVA BR707."},
+ {d:"Thu Nov 5",ic:"fl",code:"CZ3763",who:"All 3",from:"Guangzhou CAN T2",to:"Wenzhou WNZ T2",dep:"10:40",arr:"12:25",codes:[["Booking","1658116544917562"]],note:"Leave the Atour by 08:30. 20 kg checked each."},
+ {d:"Fri Nov 6",ic:"rl",code:"G7662",who:"All 3",from:"Wenzhou South",to:"Nanjing South",dep:"10:46",arr:"14:50",codes:[["Order","ER51772984"],["Car","03 · 01A/01C/01F"]],note:"Business class · booked by Eva. Final train under review with Mirza."},
+ {d:"Wed Nov 11",ic:"fl",code:"MU2875",who:"All 3",from:"Nanjing NKG T2",to:"Xi'an XIY T5",dep:"13:20",arr:"15:30",codes:[["Booking","1658116545591738"],["PNR","MDT4HN"],["Seats","34A/B/C"]],note:"Leave the voco by 11:20."},
+ {d:"Sat Nov 14",ic:"fl",code:"CA1206→CA985→UA",who:"ABT",from:"Xi'an XIY",to:"Houston IAH",dep:"08:20",arr:"20:22",codes:[["Booking","ZO-AX1093-40783"],["PNR","MHD8ND"],["Via","Beijing · SFO"]],note:"Leave the Hilton by 05:30. Seats 16J, 51H."},
+ {d:"Mon Nov 2",ic:"fl",code:"CZ6038",who:"Mirza",from:"Lahore LHE",to:"Guangzhou CAN",dep:"21:55",arr:"05:55 (+1)",codes:[["Booking","ZO-AX1094-26176"],["PNR","NFBX4J"]],note:"Rebooked after visa delay — lands 05:55 Nov 3. Return Nov 14 XIY→CAN→LHE."},
+ {d:"Thu Oct 29",ic:"fl",code:"5J628 / 5J286",who:"Greek",from:"Dumaguete DGT",to:"Guangzhou CAN",dep:"17:35",arr:"02:15 (+1)",codes:[["Ref","JA-15576K6K5"]],note:"Via Manila. Lands 02:15 Oct 30. Return from XIY Nov 14 17:50."},
+];
+
+const VISITS={
+ huini:{co:"HUINI (International) Beauty",disp:"HUINI",date:"Nov 4",city:"Huadu, Guangzhou",contact:"anna",
+   products:["Skincare (OEM)"],status:"ok",addr:"17# Dabu Rd, Xinhua Industrial Region, Huadu District, Guangzhou",
+   logistics:"Anna + manager pick up from the Atour at 10:30. ~1h each way. ~2h meeting, lunch nearby, back ~14:30.",
+   notes:"Lunch provided — asked for no heavy dairy (ABT) + halal options (Mirza).",
+   ask:[],qual:[]},
+ carelife:{co:"Shanghai Carelife / INI",disp:"Carelife",date:"Nov 5 ★",city:"Longwan, Wenzhou",contact:"cathy",
+   products:["Insulin syringes","Pen needles"],status:"ok",addr:"Longwan District, Wenzhou (Carelife arranges pickup)",
+   logistics:"Pickup at WNZ airport 12:25 (7-seater, luggage). Lunch (halal) then factory, then hotel drop. The trip's #1 priority.",
+   notes:"Cathy confirmed car + lunch + factory + hotel transport. Driver details to come before arrival.",
+   ask:["Insulin syringe pricing, MOQs, lead times","Certifications (FDA 510(k) / NDC), ISO 13485","Private-label & custom packaging options"],qual:[]},
+ meson:{co:"Meson Medical",disp:"Meson",date:"Nov 7",city:"Yizheng, Jiangsu",contact:"eva",
+   products:["Pimple patches","Adhesive remover wipes","Scar tapes","Wound closure kits"],status:"pending",addr:"Yizheng Economic Development Zone, Yizheng",
+   logistics:"Eva's car door-to-door from Nanjing (~1h). Full production tour.",
+   notes:"Confirming the factory runs on Saturday Nov 7. Eva booked the Nov 6 train.",
+   ask:["Hydrocolloid type and how it differs from others","How often the formulation is updated — or only by client request"],
+   qual:["Stickiness of the hydrocolloid, and batch-to-batch consistency"]},
+ jsun:{co:"Nanjing J Sun Healthcare",disp:"J Sun",date:"Nov 9 ★",city:"Qixia, Nanjing",contact:"shirley",
+   products:["Acne / salicylic patches"],status:"ok",addr:"No. 1 Sanjiangkou Industrial Park, Jing'an, Qixia District, Nanjing",
+   logistics:"Shirley's only available factory day (she leaves Nov 10 for a HK fair). She arranges pickup.",
+   notes:"Biggest relationship. Also at the fair, booth 9.2 M01.",
+   ask:["Hydrocolloid type and how it differs from others","Capacity, QC process, cooperation terms"],qual:[]},
+};
+
+/* Canton Fair booths */
+const BOOTHS=[
+ {hall:"9.2",items:[
+   {bn:"9.2 M01",name:"Shirley · J Sun",co:"Acne / salicylic patches",contact:"shirley"},
+   {bn:"9.2 M06",name:"Cathy / Vilma · HODAF",co:"Steam eye masks",contact:"vilma"}]},
+ {hall:"10.2",items:[
+   {bn:"10.2 D41-42",name:"Honor · CSI",co:"Shanghai Chuangshi Medical",contact:"honor"}]},
+ {hall:"14.3",items:[
+   {bn:"14.3 I40",name:"Lora · Qindao",co:"Electric blankets",contact:"lora"}]},
+];
+
+const CONTACTS={
+ team:[
+  {k:"abt",n:"Anthony Bui-Tran",r:"President",tel:"+18328183885",color:"var(--jade)"},
+  {k:"mir",n:"Mirza Hussain Beig",r:"Head of Logistics",tel:"+923112427860",color:"var(--slate)"},
+  {k:"grk",n:"Greek Pasana",r:"Sourcing PM",tel:"+639088657689",color:"var(--violet)"},
+  {k:"ali",n:"Ali Naqvi",r:"Executive Assistant (remote)",tel:"+18329246026",color:"var(--amber)"},
+ ],
+ hosts:[
+  {k:"anna",n:"Anna Zhou",r:"HUINI · Guangzhou skincare · Nov 4",tel:"+8615521195616",wa:"8615521195616",color:"var(--amber)"},
+  {k:"cathy",n:"Cathy Yan",r:"Carelife · Wenzhou insulin · Nov 5",tel:"+8613667018891",wa:"8613667018891",color:"var(--amber)"},
+  {k:"eva",n:"Eva Song",r:"Meson · Yizheng patches · Nov 7",tel:"+8615868103064",wa:"8615868103064",color:"var(--amber)"},
+  {k:"shirley",n:"Shirley Gu",r:"J Sun · Nanjing patches · Nov 9",tel:"+8615850584826",wa:"8615850584826",color:"var(--amber)"},
+ ],
+ fair:[
+  {k:"lora",n:"Lora Liu",r:"Qindao · booth 14.3 I40",tel:"+8618660252690",color:"var(--violet)"},
+  {k:"vilma",n:"Cathy / Vilma",r:"HODAF · booth 9.2 M06",tel:"+8615226567517",wa:"8615226567517",color:"var(--violet)"},
+  {k:"honor",n:"Honor Zhong",r:"CSI · booth 10.2 D41-42",tel:"+8615706846080",wa:"8615706846080",color:"var(--violet)"},
+  {k:"wendy",n:"Wendy Hu",r:"Wingspeed · shipping · Nov 3",tel:"",color:"var(--slate)"},
+  {k:"chris",n:"Chris Yu",r:"Probeing · Nerf darts · Oct 27",tel:"+8613631683552",wa:"8613631683552",color:"var(--slate)"},
+ ],
+ hotels:[
+  {k:"h1",n:"Atour Guangzhou",r:"24h front desk",tel:"+862038869988",color:"var(--ink-faint)"},
+  {k:"h2",n:"Wenzhou Marriott",r:"Front desk",tel:"+8657788918888",color:"var(--ink-faint)"},
+  {k:"h3",n:"voco Nanjing",r:"Front desk",tel:"+862586883888",color:"var(--ink-faint)"},
+ ],
+};
+
+const ALERTS=[
+ {sev:"warn",iso:"2026-11-03",t:"Mirza's visa still pending",d:"His Nov 2 flight depends on the China visa arriving in time. Keep chasing it."},
+ {sev:"crit",iso:"2026-10-25",t:"Carry both passports",d:"The China visa is in ABT's older passport — show both at immigration in Guangzhou."},
+ {sev:"crit",iso:"2026-11-05",t:"Top priority — Carelife",d:"The insulin factory in Wenzhou. Keep the day clear; Carelife handles the car, lunch and hotel drop."},
+ {sev:"warn",iso:"2026-11-07",t:"Confirm Eva's Saturday",d:"The Nov 7–8 Eva / J Sun Nov 9 plan depends on Meson running on Saturday."},
+ {sev:"warn",iso:"2026-11-12",t:"Terracotta Army tickets",d:"Booked per passport and they sell out — confirm before going."},
+ {sev:"crit",iso:"2026-11-14",t:"Very early departure",d:"ABT leaves the Hilton by 05:30. Order a breakfast box the night before."},
+];
+
+const PREP=[
+ {t:"Carry both passports (ABT)",d:"The visa is in the old passport — show both at immigration.",done:false},
+ {t:"VPN installed & tested before flying",d:"Google, WhatsApp, Slack, Gmail blocked in China. ABT: Shadowrocket. Mirza & Greek: set up before Oct 30 / Nov 2.",done:false},
+ {t:"Alipay linked + DiDi + Amap",d:"Alipay to a card; DiDi for rides; Amap/Apple Maps (Google Maps is inaccurate in China).",done:false},
+ {t:"Business cards for the fair",d:"Needed at the badge desk and booths. Print a batch in Guangzhou — Mirza arrives Nov 3.",done:false},
+ {t:"China Arrival Card online",d:"Fill in before landing (National Immigration Administration site).",done:false},
+ {t:"Dietary notes to hosts",d:"No heavy dairy (ABT) + halal options (Mirza) — tell each host arranging meals.",done:true},
+ {t:"Meetings & dinners end by 8 PM",d:"Standing rule for the trip.",done:true},
+];
+
+/* map node positions (approx geographic, 0–100 viewBox) */
+const MAPNODES=[
+ {id:"xian",label:"Xi'an",x:24,y:37,sub:"Nov 11–14"},
+ {id:"beijing",label:"Beijing",x:60,y:13,sub:"return transit",dim:true},
+ {id:"nanjing",label:"Nanjing",x:72,y:46,sub:"Nov 6–11"},
+ {id:"wenzhou",label:"Wenzhou",x:81,y:64,sub:"Nov 5–6"},
+ {id:"taipei",label:"Taipei",x:85,y:77,sub:"Oct 23–25"},
+ {id:"guangzhou",label:"Guangzhou",x:45,y:85,sub:"Oct 25 – Nov 5"},
+];
+const MAPLEGS=[
+ {a:"taipei",b:"guangzhou",mode:"fl",lbl:"Oct 25"},
+ {a:"guangzhou",b:"wenzhou",mode:"fl",lbl:"Nov 5"},
+ {a:"wenzhou",b:"nanjing",mode:"rl",lbl:"Nov 6"},
+ {a:"nanjing",b:"xian",mode:"fl",lbl:"Nov 11"},
+ {a:"xian",b:"beijing",mode:"fl",lbl:"Nov 14 home",dim:true},
+];
+
+/* ======================= HELPERS ======================= */
+const $=s=>document.querySelector(s);
+const E=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+const parseISO=s=>{const[a,b,c]=s.split("-").map(Number);return new Date(a,b-1,c);};
+const fmtLong=d=>DOWF[d.getDay()]+", "+MON[d.getMonth()]+" "+d.getDate();
+const mapsUrl=q=>"https://maps.apple.com/?q="+encodeURIComponent(q);
+const telUrl=t=>"tel:"+(t||"").replace(/[^0-9+]/g,"");
+function toast(m){const t=$("#toast");t.textContent=m;t.style.opacity="1";clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity="0",1500);}
+function copy(s){navigator.clipboard?.writeText(s).then(()=>toast("Copied")).catch(()=>toast("Copy failed"));}
+function catBadge(cat){const m={travel:["b-travel","Travel"],fair:["b-fair","Canton Fair"],factory:["b-factory","Visit"],priority:["b-priority","Priority"],rest:["b-rest","Free / rest"]};const x=m[cat]||m.rest;return `<span class="badge ${x[0]}"><span class="d"></span>${x[1]}</span>`;}
+function teamChips(team){const names={a:["abt","A"],m:["mir","M"],g:["grk","G"]};let h='<span class="who">';for(const ch of team){const t=names[ch];if(t)h+=`<span class="p ${t[0]}">${t[1]}</span>`;}h+="</span>";return h;}
+function teamLabel(team){const names={a:"ABT",m:"Mirza",g:"Greek"};return team.split("").map(c=>names[c]).join(" · ");}
+
+function chinaNow(){
+  const p=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Shanghai",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date());
+  const g=t=>p.find(x=>x.type===t).value;
+  return {iso:`${g("year")}-${g("month")}-${g("day")}`,hm:`${g("hour")}:${g("minute")}`,date:new Date(+g("year"),+g("month")-1,+g("day"))};
+}
+function activeIdx(){const t=chinaNow().iso;if(t<DAYS[0].iso)return 0;for(let i=0;i<DAYS.length;i++)if(DAYS[i].iso===t)return i;return DAYS.length-1;}
+let sel=activeIdx();
+
+/* ======================= HEADER ======================= */
+function tickHeader(){
+  const cn=chinaNow();
+  $("#ckTime").textContent=cn.hm;
+  $("#ckDate").textContent=MON[cn.date.getMonth()]+" "+cn.date.getDate()+" China";
+  const total=parseISO(DAYS[DAYS.length-1].iso)-parseISO(DAYS[0].iso);
+  const done=Math.min(Math.max(cn.date-parseISO(DAYS[0].iso),0),total);
+  $("#prog").style.width=(total?done/total*100:0)+"%";
+}
+
+/* ======================= TODAY ======================= */
+function stepHTML(s){
+  const nd=s[2]?("nd "+s[2]):"nd";
+  return `<li><span class="${nd}">${IC[s[1]]||"•"}</span>
+    <div class="tm">${s[0]}</div><div class="wt">${s[3]}</div>${s[4]?`<div class="dt">${s[4]}</div>`:""}</li>`;
+}
+function dayCard(day){
+  let pend=day.pendingNote?`<div class="alert a-warn" style="cursor:default"><div class="i">◑</div><div class="x"><p>${day.pendingNote}</p></div></div>`:"";
+  return `<div class="card pad">
+    ${day.lead?`<p style="margin:0 0 12px;font-size:14px;color:var(--ink-soft)">${day.lead}</p>`:""}
+    <ul class="steps">${day.steps.map(stepHTML).join("")}</ul>
+    ${pend}</div>`;
+}
+function renderToday(){
+  const v=$("#v-today");v.innerHTML="";
+  const day=DAYS[sel];
+  // day nav
+  const nav=E("div","daynav");
+  nav.innerHTML=`<button ${sel===0?"disabled":""} id="pv">‹</button>
+    <div class="lbl">${day.dow} · ${MON[parseISO(day.iso).getMonth()]} ${parseISO(day.iso).getDate()}<small>Day ${sel+1} of ${DAYS.length} · 2026</small></div>
+    <button ${sel===DAYS.length-1?"disabled":""} id="nx">›</button>`;
+  v.appendChild(nav);
+  nav.querySelector("#pv").onclick=()=>{if(sel>0){sel--;renderToday();scrollTop();}};
+  nav.querySelector("#nx").onclick=()=>{if(sel<DAYS.length-1){sel++;renderToday();scrollTop();}};
+
+  // hero
+  const cn=chinaNow();
+  const isToday=day.iso===cn.iso;
+  let next=null;
+  if(isToday){for(const s of day.steps){if(/^\d{2}:\d{2}$/.test(s[0])&&s[0]>cn.hm){next=s;break;}}}
+  if(!next)next=day.steps[0];
+  const state=cn.iso<DAYS[0].iso?"Trip starts soon":cn.iso>DAYS[DAYS.length-1].iso?"Trip complete":isToday?"You are here":sel<activeIdx()?"Earlier":"Coming up";
+  const hero=E("div","hero");
+  hero.innerHTML=`<div class="chip">Day ${sel+1} / ${DAYS.length}</div>
+    <div class="ey"><span class="dot"></span>${state}</div>
+    <h3>${day.title}</h3>
+    <div class="where">${day.city} · ${fmtLong(parseISO(day.iso))}</div>
+    <div class="nxt"><div class="ic">${IC[next[1]]||"◎"}</div>
+      <div><div class="l">${/^\d{2}:\d{2}$/.test(next[0])?("Next · "+next[0]):"On the agenda"}</div>
+      <div class="t">${next[3]}</div>${next[4]?`<div class="m">${next[4]}</div>`:""}</div></div>
+    <div class="team">${teamChips(day.team)}<span>${teamLabel(day.team)} in China</span></div>`;
+  v.appendChild(hero);
+
+  // alert for today
+  const al=ALERTS.find(a=>a.iso===day.iso);
+  if(al)v.appendChild(alertEl(al));
+
+  v.appendChild(E("div","slab","Plan for the day"));
+  v.insertAdjacentHTML("beforeend",dayCard(day));
+
+  // visit block
+  if(day.visit&&VISITS[day.visit]){
+    v.appendChild(E("div","slab","This visit"));
+    v.appendChild(visitCard(VISITS[day.visit],true));
+  }
+  // hotel
+  if(day.hotel){v.appendChild(E("div","slab","Tonight's stay"));v.appendChild(hotelCard(HOTELS[day.hotel]));}
+
+  // tomorrow peek
+  if(sel<DAYS.length-1){
+    const t=DAYS[sel+1];
+    const btn=E("button","card pad");btn.style.cssText="margin-top:11px;width:100%;text-align:left;display:block";
+    btn.innerHTML=`<div class="eyebrow">Tomorrow · ${MON[parseISO(t.iso).getMonth()]} ${parseISO(t.iso).getDate()}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;gap:10px">
+      <div><div style="font-weight:700;font-size:15px">${t.title}</div><div class="tiny" style="margin-top:2px">${t.city}</div></div>
+      <div style="font-size:20px;color:var(--ink-faint)">›</div></div>`;
+    btn.onclick=()=>{sel++;renderToday();scrollTop();};
+    v.appendChild(btn);
+  }
+  updTodayBtn();
+}
+function scrollTop(){window.scrollTo({top:0,behavior:"smooth"});}
+function updTodayBtn(){$("#todayBtn").classList.toggle("show",sel!==activeIdx());}
+
+/* ======================= VISIT CARD ======================= */
+function visitCard(f,withQ){
+  const c=CONTACTS.hosts.concat(CONTACTS.fair).find(x=>x.k===f.contact)||{};
+  const card=E("div","card vcard");
+  let q="";
+  if(withQ){
+    if(f.ask&&f.ask.length)q+=`<div class="qgrp"><span class="qtag ask">Ask on this visit</span>${f.ask.map((t,i)=>`<div class="qitem"><span class="n">${i+1}</span><span>${t}</span></div>`).join("")}</div>`;
+    if(f.qual&&f.qual.length)q+=`<div class="qgrp"><span class="qtag qual">Quality concerns</span>${f.qual.map((t,i)=>`<div class="qitem"><span class="n">${i+1}</span><span>${t}</span></div>`).join("")}</div>`;
+  }
+  card.innerHTML=`<div class="pad">
+    <div class="top"><div><div class="co">${f.co}</div><div class="meta">${f.date} · ${f.city}${c.n?" · "+c.n:""}</div></div>
+      <span class="badge ${f.status==="ok"?"b-ok":"b-pending"}"><span class="d"></span>${f.status==="ok"?"Confirmed":"Pending"}</span></div>
+    <div class="prod">${f.products.map(p=>`<span>${p}</span>`).join("")}</div>
+    <div class="irow" style="margin-top:12px"><div class="k">Where</div><div class="v">${f.addr}</div></div>
+    <div class="irow"><div class="k">Logistics</div><div class="v">${f.logistics}</div></div>
+    ${f.notes?`<div class="irow"><div class="k">Notes</div><div class="v">${f.notes}</div></div>`:""}
+    ${q}
+    <div class="acts">
+      <a class="ab pri" target="_blank" href="${mapsUrl(f.addr)}">Directions</a>
+      ${c.wa?`<a class="ab wa" target="_blank" href="https://wa.me/${c.wa}">WhatsApp</a>`:""}
+      ${c.tel?`<a class="ab call" href="${telUrl(c.tel)}">Call ${c.n.split(" ")[0]}</a>`:""}</div>
+  </div>`;
+  return card;
+}
+
+/* ======================= HOTEL CARD ======================= */
+function hotelCard(h){
+  const c=E("div","card pad");
+  const row=(k,v)=>v?`<div class="irow"><div class="k">${k}</div><div class="v">${v}</div></div>`:"";
+  c.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
+      <div style="font-weight:750;font-size:15.5px;line-height:1.25">${h.name}</div>
+      <span class="badge b-ok"><span class="d"></span>Booked</span></div>
+    <div class="tiny" style="margin-top:3px">${h.city} · ${h.dates} · ${h.who}</div>
+    <div style="margin-top:10px">
+      ${row("Conf",`<span class="conf">${h.conf}</span>`)}
+      ${row("PIN",`<span class="conf">${h.pin}</span>`)}
+      ${row("Address",h.addr)}
+      ${row("Payment",h.pay)}
+      ${row("Notes",h.note)}</div>
+    <div class="acts">
+      <a class="ab" target="_blank" href="${mapsUrl(h.addr)}">Open in Maps</a>
+      <a class="ab call" href="${telUrl(h.phone)}">Call hotel</a>
+      <button class="ab" onclick="copy('${h.addr.replace(/'/g,"\\'")}')">Copy address</button></div>`;
+  return c;
+}
+
+/* ======================= TRIP ======================= */
+function renderTrip(){
+  const v=$("#v-trip");v.innerHTML="";
+  v.appendChild(E("div","vhead","<h2>Trip timeline</h2><span class='sub'>24 days · Oct 22 – Nov 14</span>"));
+  const rail=E("div","rail");
+  const act=activeIdx();
+  DAYS.forEach((d,i)=>{
+    const rd=E("div","rday t-"+d.cat+(i===act?" active":"")+(i===sel?" open":""));
+    const dt=parseISO(d.iso);
+    rd.innerHTML=`<div class="node">${i+1}</div>
+      <div class="rcard">
+        <div class="rsum">
+          <div class="top"><div class="dl">${d.dow}<small>${MON[dt.getMonth()]} ${dt.getDate()}</small></div>${catBadge(d.cat)}</div>
+          <div class="ti">${d.title}</div>
+          <div class="ci"><span>${d.city}</span>${teamChips(d.team)}</div>
+          <div class="ex">tap to ${i===sel?"collapse":"expand"} ▾</div>
+        </div>
+        <div class="rdet">${dayCard(d)}</div>
+      </div>`;
+    rd.querySelector(".rsum").onclick=()=>{rd.classList.toggle("open");};
+    rail.appendChild(rd);
+  });
+  v.appendChild(rail);
+}
+
+/* ======================= VISITS / FAIR ======================= */
+function renderVisits(){
+  const v=$("#v-visits");v.innerHTML="";
+  v.appendChild(E("div","vhead","<h2>Meetings</h2><span class='sub'>fair booths + factory visits</span>"));
+
+  v.appendChild(E("div","slab","Canton Fair · Phase 3 booths (Oct 31–Nov 4)"));
+  BOOTHS.forEach(hall=>{
+    const hd=E("div","hall");
+    hd.innerHTML=`<h4>Hall ${hall.hall} <span class="tagh">${hall.items.length} booth${hall.items.length>1?"s":""}</span></h4>`;
+    hall.items.forEach(b=>{
+      const c=CONTACTS.fair.concat(CONTACTS.hosts).find(x=>x.k===b.contact)||{};
+      const row=E("div","card booth");
+      row.innerHTML=`<div class="bn">${b.bn}</div>
+        <div class="bi"><div class="n">${b.name}</div><div class="c">${b.co}</div></div>
+        ${c.wa?`<a class="ab wa" style="padding:7px 10px" target="_blank" href="https://wa.me/${c.wa}">Chat</a>`:(c.tel?`<a class="ab call" style="padding:7px 10px" href="${telUrl(c.tel)}">Call</a>`:"")}`;
+      hd.appendChild(row);
+    });
+    v.appendChild(hd);
+  });
+  v.insertAdjacentHTML("beforeend",`<p class="tiny" style="margin:12px 3px 0">Halls 9.2 & 10.2 are adjacent — group those three, then walk to 14.3 for Lora. Best done on Oct 31 (ABT + Greek; Mirza arrives Nov 3).</p>`);
+
+  v.appendChild(E("div","slab","Factory visits"));
+  ["carelife","meson","jsun","huini"].forEach(k=>v.appendChild(visitCard(VISITS[k],true)));
+}
+
+/* ======================= MAP (inline SVG, offline) ======================= */
+function renderMap(){
+  const v=$("#v-map");v.innerHTML="";
+  v.appendChild(E("div","vhead","<h2>Route</h2><span class='sub'>Taipei → Guangzhou → Wenzhou → Nanjing → Xi'an → home</span>"));
+  const pos=id=>MAPNODES.find(n=>n.id===id);
+  let legs="",dots="",labels="";
+  MAPLEGS.forEach(l=>{
+    const a=pos(l.a),b=pos(l.b);
+    const dash=l.mode==="fl"?'stroke-dasharray="3 3"':"";
+    const col=l.dim?"var(--ink-faint)":(l.mode==="rl"?"var(--jade)":"var(--slate)");
+    legs+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${col}" stroke-width="${l.dim?.7:1}" ${dash} opacity="${l.dim?.5:.9}" stroke-linecap="round"/>`;
+    const mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+    labels+=`<text x="${mx}" y="${my-1.4}" font-size="2.5" fill="var(--ink-faint)" text-anchor="middle" style="font-weight:600">${l.lbl}</text>`;
+  });
+  MAPNODES.forEach((n,i)=>{
+    const r=n.dim?1.4:2.1;
+    const fill=n.dim?"var(--ink-faint)":"var(--jade)";
+    dots+=`<circle cx="${n.x}" cy="${n.y}" r="${r+1.3}" fill="var(--surface)"/>
+      <circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${fill}"/>`;
+    const anchor=n.x>70?"end":n.x<30?"start":"middle";
+    const lx=n.x>70?n.x-3:n.x<30?n.x+3:n.x;
+    const ly=n.y+(n.dim?-3.5:5.2);
+    labels+=`<text x="${lx}" y="${ly}" font-size="3.3" fill="var(--ink)" text-anchor="${anchor}" style="font-weight:800">${n.label}</text>
+      <text x="${lx}" y="${ly+3.4}" font-size="2.4" fill="var(--ink-faint)" text-anchor="${anchor}">${n.sub}</text>`;
+  });
+  const mw=E("div","mapwrap");
+  mw.innerHTML=`<svg class="routemap" viewBox="0 0 100 95" role="img" aria-label="Trip route map">
+    ${legs}${dots}${labels}</svg>`;
+  v.appendChild(mw);
+  v.insertAdjacentHTML("beforeend",`<div class="mlegend">
+    <span><i style="border-color:var(--slate)"></i>Flight</span>
+    <span><i style="border-color:var(--jade);border-top-style:solid"></i>High-speed train</span>
+    <span><i style="border-color:var(--ink-faint);border-top-style:dashed"></i>Flight home</span></div>`);
+  v.insertAdjacentHTML("beforeend",`<p class="mapnote">A schematic of the journey, not to exact scale. Open any day in Trip for addresses and map links. Inbound: Houston → Taipei. Home: Xi'an → Beijing → San Francisco → Houston.</p>`);
+
+  // city jump list
+  v.appendChild(E("div","slab","Jump to a city"));
+  const cities=[["Taipei","2026-10-23"],["Guangzhou","2026-10-25"],["Wenzhou","2026-11-05"],["Nanjing","2026-11-06"],["Xi'an","2026-11-11"]];
+  cities.forEach(([nm,iso])=>{
+    const i=DAYS.findIndex(d=>d.iso===iso);
+    const b=E("button","card pad");b.style.cssText="width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px";
+    b.innerHTML=`<span style="font-weight:700">${nm}</span><span class="tiny">${DAYS[i].title} ›</span>`;
+    b.onclick=()=>{sel=i;switchView("today");renderToday();scrollTop();};
+    v.appendChild(b);
+  });
+}
+
+/* ======================= INFO ======================= */
+function contactRow(c){
+  const ini=c.n.split(/[ \/]/).slice(0,2).map(w=>w[0]).join("");
+  return `<div class="card cc">
+    <div class="av" style="background:${c.color}">${ini}</div>
+    <div class="ci"><div class="n">${c.n}</div><div class="r">${c.r}</div></div>
+    <div class="cb">
+      ${c.wa?`<a class="wa" target="_blank" href="https://wa.me/${c.wa}" aria-label="WhatsApp">✆</a>`:""}
+      ${c.tel?`<a href="${telUrl(c.tel)}" aria-label="Call">☏</a>`:""}
+    </div></div>`;
+}
+function renderInfo(){
+  const v=$("#v-info");v.innerHTML="";
+  v.appendChild(E("div","vhead","<h2>Info</h2><span class='sub'>team · stays · flights · essentials</span>"));
+
+  v.appendChild(E("div","slab","The team"));
+  CONTACTS.team.forEach(c=>v.insertAdjacentHTML("beforeend",contactRow(c)));
+  v.querySelectorAll(".cc").forEach(x=>x.style.marginBottom="8px");
+
+  v.appendChild(E("div","slab","Hosts & suppliers"));
+  CONTACTS.hosts.concat(CONTACTS.fair).forEach(c=>{const d=E("div");d.innerHTML=contactRow(c);d.firstChild.style.marginBottom="8px";v.appendChild(d.firstChild);});
+
+  v.appendChild(E("div","slab","Hotel front desks"));
+  CONTACTS.hotels.forEach(c=>{const d=E("div");d.innerHTML=contactRow(c);d.firstChild.style.marginBottom="8px";v.appendChild(d.firstChild);});
+
+  v.appendChild(E("div","slab","All stays"));
+  Object.values(HOTELS).forEach(h=>v.appendChild(hotelCard(h)));
+
+  v.appendChild(E("div","slab","Flights & trains"));
+  MOVES.forEach(m=>{
+    const c=E("div","card pad");
+    c.innerHTML=`<div style="display:flex;justify-content:space-between;gap:8px;align-items:baseline">
+        <div style="font-weight:750;font-size:15px">${IC[m.ic]} ${m.code}</div><div class="tiny">${m.d}</div></div>
+      <div style="margin-top:6px;font-weight:650;font-variant-numeric:tabular-nums;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <span>${m.dep}</span><span>${m.from}</span><span style="color:var(--jade)">→</span><span>${m.to}</span><span>${m.arr}</span></div>
+      <div class="tiny" style="margin-top:4px">${teamLabelFull(m.who)}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px">${m.codes.map(x=>`<span class="tiny">${x[0]} <b style="color:var(--ink)">${x[1]}</b></span>`).join("")}</div>
+      ${m.note?`<div class="tiny" style="margin-top:6px">${m.note}</div>`:""}`;
+    v.appendChild(c);
+  });
+
+  v.appendChild(E("div","slab","Before you fly"));
+  const prep=E("div","card pad");
+  prep.innerHTML=PREP.map(p=>`<div class="chk ${p.done?"done":""}"><span class="cx">${p.done?"✅":"⬜"}</span><div><b>${p.t}</b><div class="tiny">${p.d}</div></div></div>`).join("");
+  v.appendChild(prep);
+
+  v.appendChild(E("div","slab","Emergency (China)"));
+  const emg=E("div","card pad");
+  emg.innerHTML=`
+    <div class="irow"><div class="k">Police</div><div class="v"><a href="tel:110" style="font-weight:700;color:var(--jade-deep)">110</a></div></div>
+    <div class="irow"><div class="k">Ambulance</div><div class="v"><a href="tel:120" style="font-weight:700;color:var(--jade-deep)">120</a></div></div>
+    <div class="irow"><div class="k">Fire</div><div class="v"><a href="tel:119" style="font-weight:700;color:var(--jade-deep)">119</a></div></div>
+    <div class="irow"><div class="k">US Embassy</div><div class="v"><a href="tel:+861085314000" style="font-weight:700;color:var(--jade-deep)">+86 10 8531 4000</a><br><span class="tiny">24h emergency line for US citizens (lost passport, arrest, medical)</span></div></div>`;
+  v.appendChild(emg);
+  const cary=E("div","alert a-note");cary.style.cursor="default";
+  cary.innerHTML=`<div class="i">ℹ</div><div class="x"><b>Carry your passport at all times</b><p>Needed for hotel check-in, train boarding and police checks. Keep a photo copy separately as backup.</p></div>`;
+  v.appendChild(cary);
+
+  v.appendChild(E("div","slab","Open items"));
+  ALERTS.forEach(a=>v.appendChild(alertEl(a)));
+}
+function teamLabelFull(w){return w;}
+
+/* ======================= ALERTS ======================= */
+function alertEl(a){
+  const icon={crit:"⚠️",warn:"◑",note:"ℹ"}[a.sev]||"ℹ";
+  const i=DAYS.findIndex(d=>d.iso===a.iso);
+  const dt=i>=0?parseISO(DAYS[i].iso):null;
+  const e=E("div","alert a-"+a.sev);
+  e.innerHTML=`<div class="i">${icon}</div><div class="x"><b>${a.t}</b><p>${a.d}</p>${dt?`<div class="j">→ ${DOWF[dt.getDay()].slice(0,3)} ${MON[dt.getMonth()]} ${dt.getDate()}</div>`:""}</div>`;
+  if(i>=0)e.onclick=()=>{sel=i;switchView("today");renderToday();scrollTop();};
+  else e.style.cursor="default";
+  return e;
+}
+
+/* ======================= NAV ======================= */
+const VIEWS={today:renderToday,trip:renderTrip,visits:renderVisits,map:renderMap,info:renderInfo};
+function switchView(name){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("on"));
+  $("#v-"+name).classList.add("on");
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v===name));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{const n=b.dataset.v;switchView(n);VIEWS[n]();});
+$("#todayBtn").onclick=()=>{sel=activeIdx();switchView("today");renderToday();scrollTop();};
+
+/* ======================= THEME ======================= */
+const tb=$("#themeBtn");
+try{const t=localStorage.getItem("china-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}
+tb.onclick=()=>{
+  const cur=document.documentElement.getAttribute("data-theme");
+  const dark=cur?cur==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  const nx=dark?"light":"dark";
+  document.documentElement.setAttribute("data-theme",nx);
+  try{localStorage.setItem("china-theme",nx);}catch(e){}
+};
+
+/* ======================= INIT ======================= */
+tickHeader();renderToday();
+setInterval(tickHeader,30000);
+setInterval(()=>{if($("#v-today").classList.contains("on"))renderToday();},60000);
+</script>
+</body>
+</html>
